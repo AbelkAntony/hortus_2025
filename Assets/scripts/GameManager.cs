@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] CameraManger cam;
+    public CameraManger cam;
     [SerializeField] GameObject Player;
     private GameObject newPlayer;
     private float distanceBetweenPlayers;
@@ -27,17 +27,19 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         Vector3 PlayerPosition = new Vector3(0, 2, 0);
-       // cam.CameraHeight(PlayerPosition.y);
-        Instantiate(Player,PlayerPosition, Quaternion.identity);
-        cam.CameraHeight(PlayerPosition.y);
+        // cam.CameraHeight(PlayerPosition.y);
+        GameObject newPlayer = Instantiate(Player,PlayerPosition, Quaternion.identity);
+        cam.CameraHeight(newPlayer.transform);
+        //cam.CameraHeight(PlayerPosition.y);
     }
 
     public void SpwanPlayer(Vector3 previousPlayerPos)
     {
         previousPlayerPosition = previousPlayerPos;
         previousPlayerPosition.y += 4;
-        cam.CameraHeight(previousPlayerPosition.y);
+        //cam.CameraHeight(previousPlayerPosition.y);
         GameObject newPlayer = Instantiate(Player, previousPlayerPosition, Quaternion.identity);
+        cam.CameraHeight(newPlayer.transform);
     }
 
     public void GameOver()

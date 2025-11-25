@@ -64,6 +64,8 @@ public class cube_controller : MonoBehaviour
             //gameManager.PlayerLanded();
             if(collision.gameObject.tag == "Player")
             {
+
+                gameManager.cam.ShakeCamera();
                 Debug.Log(collision.gameObject.tag);
                 float distanceBetweenPlayers = Vector3.Distance(this.transform.position, collision.gameObject.transform.position);
                 Debug.Log(distanceBetweenPlayers);

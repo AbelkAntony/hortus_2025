@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,10 @@ public class Spawner : MonoBehaviour
     public Building NewBuilding;
     public Building FallingBuilding;
     public Building TopBuilding; 
+    public Building BaseBuidling;
     public List<Building> AllBuildings;
 
+    public float InitailYPosition;
     public float SpawnDelay;
     public float BuildingWidth;
     public float BuildingHeight;
@@ -42,12 +45,17 @@ public class Spawner : MonoBehaviour
 
         MoveSpawner();
 
-        if (Input.GetKeyDown(KeyCode.Space) && NewBuilding!= null)
-        {
-            FallBuilding();       
-            SpawnNextBuilding();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space) && NewBuilding!= null)
+        // {
+        //     HitFall();
+        // }
 
+    }
+
+    public void HitFall()
+    {
+        FallBuilding();
+        SpawnNextBuilding();
     }
 
     private void SpawnNextBuilding()
@@ -64,12 +72,12 @@ public class Spawner : MonoBehaviour
 
     private void SpawnBuilding()
     {
-       NewBuilding = Instantiate(BuildingPrefab, transform.position, Quaternion.identity);
-       NewBuilding.transform.parent = transform; //set the spawner as parent of building
+        NewBuilding = Instantiate(BuildingPrefab, transform.position, Quaternion.identity);
+        NewBuilding.transform.parent = transform; //set the spawner as parent of building
     }
 
     // set the building to fall
-    private void  FallBuilding()
+    public void FallBuilding()
     {
         // Sepearate out the falling building so that it doesnt interfere with the spawing
         FallingBuilding = NewBuilding;
@@ -95,6 +103,8 @@ public class Spawner : MonoBehaviour
 
     internal void Hit()
     {
+        if(TopBuilding == null || FallingBuilding == null)
+            return;
 
         float difference = Mathf.Abs(TopBuilding.transform.position.x - FallingBuilding.transform.position.x);
         //Debug.Log($"{difference/BuildingWidth} : {difference}");
@@ -134,5 +144,28 @@ public class Spawner : MonoBehaviour
     public void SetNextYPosition()
     {
         transform.position = new Vector3(transform.position.x, TopBuilding.transform.position.y + MoveHeight, transform.position.z); //move up when space is pressed
+    }
+
+    internal void Restart()
+    {
+        if(AllBuildings == null || AllBuildings.Count <= 0)
+            return;
+
+        if(NewBuilding != null)
+            Destroy(NewBuilding.gameObject);
+        
+        Destroy(FallingBuilding.gameObject);  //destroy the falling building when restart is called. 
+       // Destroy(TopBuilding.gameObject);
+        
+        for (int i = 0; i < AllBuildings.Count; i++)
+        {
+            Destroy(AllBuildings[i].gameObject); 
+        }
+
+        AllBuildings.Clear();
+
+        TopBuilding = BaseBuidling;
+        SetNextYPosition();
+        CameraManger.Instance.ResetPosition();
     }
 }

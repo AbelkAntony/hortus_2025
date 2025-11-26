@@ -43,4 +43,8 @@ public class CameraManger : MonoBehaviour
         Camera.GetComponent<CinemachineBasicMultiChannelPerlin>().AmplitudeGain = 0;
     }
 
+    internal void ResetPosition()
+    {
+        Camera.transform.position = new Vector3(0, 0, 0);
+    }
 }

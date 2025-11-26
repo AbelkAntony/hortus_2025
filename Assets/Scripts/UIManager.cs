@@ -10,12 +10,19 @@ public class UIManager : MonoBehaviour
 
     public List<TextMeshProUGUI> LeaderBoardText;
 
+    public GameObject MainMenuPanel;
+    public  GameObject GameOverPanel;
+    public GameObject LeaderBoardPanel;
+
+    public TextMeshProUGUI NameInput;
+
+    public TextMeshProUGUI TimerText;
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -28,15 +35,17 @@ public class UIManager : MonoBehaviour
         TotalHieghtText.text = $"{height}m"; // Format the height to 2 decimal places and append "m" for meters.
     }
 
-    public void ShowLeaderBoardText(List<Score> scores)
+    public void ShowLeaderBoardText()
     {
+        GameManager.Instance.leaderBoard.Show();
+        var scores = GameManager.Instance.leaderBoard._scoreData.scores;
         // arrange scores with highest score first
-        scores.Sort((a, b) => b.height.CompareTo(a.height));
+        scores.Sort((a, b) => b.value.CompareTo(a.value));
         for (int i = 0; i < LeaderBoardText.Count; i++)
         {
             if (i < scores.Count)
             {
-                LeaderBoardText[i].text = $"{scores[i].Name[0]}{scores[i].Name[1]}{scores[i].Name[2]} - {scores[i].height}m";
+                LeaderBoardText[i].text = $"{scores[i].name[0]}{scores[i].name[1]}{scores[i].name[2]} - {scores[i].value}m";
             }
             else
             {
@@ -45,4 +54,47 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    internal void ShowGameOverScreen()
+    {
+        GameOverPanel.SetActive(true);
+    }
+
+    internal void ShowLeaderBoard()
+    {
+         if(LeaderBoardPanel.activeSelf)
+        {
+            LeaderBoardPanel.SetActive(false); // Deactivate the leaderboard panel.
+            GameOverPanel.SetActive(false); // Deactivate the game over panel.
+            MainMenuPanel.SetActive(true); // Activate the main menu panel.
+            return;
+        }
+        
+        LeaderBoardPanel.SetActive(true); // Activate the leaderboard panel.
+        MainMenuPanel.SetActive(false);
+        ShowLeaderBoardText();
+    }
+
+    public void ShowMainMenu()
+    {
+
+        MainMenuPanel.SetActive(true);
+        LeaderBoardPanel.SetActive(false);
+        GameOverPanel.SetActive(false);
+    }
+
+    internal void UpdateTimer(float currentTime)
+    {
+        TimerText.text = "Time: " + Mathf.Round(currentTime).ToString(); // Update the timer text with the current time.
+    }
+
+    public void GameStart()
+    {
+        if (MainMenuPanel.activeSelf)
+        {
+            MainMenuPanel.SetActive(false); // Deactivate the main menu panel.
+            LeaderBoardPanel.SetActive(false); // Deactivate the leaderboard panel.
+            GameOverPanel.SetActive(false); // Deactivate the game over panel.
+        }
+
+    }
 }

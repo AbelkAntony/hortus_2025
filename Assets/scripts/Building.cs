@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Building : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class Building : MonoBehaviour
             //stop falling
             isFalling = false;
             CameraManger.Instance.ShakeCamera();
-            float PrevXPosition = Spawner.Instance.TopBuilding.transform.position.x;
             Spawner.Instance.Hit();
         }
     }

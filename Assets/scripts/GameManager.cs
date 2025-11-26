@@ -1,22 +1,32 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public CameraManger cam;
-    [SerializeField] GameObject Player;
-    private GameObject newPlayer;
-    private float distanceBetweenPlayers;
-    private Vector3 previousPlayerPosition;
+
+    public static GameManager Instance {get; private set;} 
+    public bool isGameOver;
+    public bool isGameSessionActive;
+
+    public float TotalHeight;
 
     //private Vector3 previousPlayerPosition;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-        StartGame();
+        
     }
 
     // Update is called once per frame
@@ -26,31 +36,21 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        Vector3 PlayerPosition = new Vector3(0, 2, 0);
-        // cam.CameraHeight(PlayerPosition.y);
-        GameObject newPlayer = Instantiate(Player,PlayerPosition, Quaternion.identity);
-        cam.CameraHeight(newPlayer.transform);
-        //cam.CameraHeight(PlayerPosition.y);
+        TotalHeight = 0;
+        UIManager.Instance.UpdateTotalHeight(0);
+        isGameOver = false;
+        isGameSessionActive = true;
     }
 
-    public void SpwanPlayer(Vector3 previousPlayerPos)
+    internal void GameOver()
     {
-        previousPlayerPosition = previousPlayerPos;
-        previousPlayerPosition.y += 4;
-        //cam.CameraHeight(previousPlayerPosition.y);
-        GameObject newPlayer = Instantiate(Player, previousPlayerPosition, Quaternion.identity);
-        cam.CameraHeight(newPlayer.transform);
+        isGameOver = true;
     }
 
-    public void GameOver()
+    public void IncreaseHeight()
     {
-        Invoke("ResetScene", 0.5f);
-
-    }
-
-    private void ResetScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        TotalHeight += 10;
+        UIManager.Instance.UpdateTotalHeight(TotalHeight);
     }
 }
 

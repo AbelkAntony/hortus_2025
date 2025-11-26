@@ -45,7 +45,10 @@ public class UIManager : MonoBehaviour
         {
             if (i < scores.Count)
             {
-                LeaderBoardText[i].text = $"{scores[i].name[0]}{scores[i].name[1]}{scores[i].name[2]} - {scores[i].value}m";
+                if(scores[i].name.Length >= 3) // Check if the name has at least 3 characters.
+                    LeaderBoardText[i].text = $"{scores[i].name[0]}{scores[i].name[1]}{scores[i].name[2]} - {scores[i].value}m";
+                else
+                    LeaderBoardText[i].text = $"{scores[i].name} - {scores[i].value}m"; // Display the full name if it's less than 3 characters.
             }
             else
             {

@@ -1532,7 +1532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1093438267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2790,7 +2790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1945635200
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -3060,8 +3060,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0, g: 0.8484955, b: 1, a: 1}
-      maxColor: {r: 0.18196721, g: 1, b: 0.0141509175, a: 1}
+      minColor: {r: 1, g: 0.6708686, b: 0, a: 1}
+      maxColor: {r: 0.978954, g: 1, b: 0.015686274, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.024959564, g: 1, b: 0, a: 1}
@@ -7661,7 +7661,7 @@ Transform:
   m_GameObject: {fileID: 1945635199}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
